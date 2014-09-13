@@ -12,7 +12,7 @@ namespace TescoHack.Api
     {
         protected void Application_Start()
         {
-            //new LogEvent("Global").Raise();
+            new LogEvent("Global").Raise();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

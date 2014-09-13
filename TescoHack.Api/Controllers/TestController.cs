@@ -14,7 +14,7 @@ namespace TescoHack.Api.Controllers
 
         public TestController(IRepository<Thingy> thingyRepository)
         {
-            //new LogEvent("TestController Constructor " + thingyRepository).Raise();
+            new LogEvent("TestController Constructor " + thingyRepository).Raise();
             _thingyRepository = thingyRepository;
         }
 
@@ -23,21 +23,17 @@ namespace TescoHack.Api.Controllers
         {
             _thingyRepository.Create(new Thingy
             {
-                Id = "Thingy:Love",
+                Id = Guid.NewGuid(),
                 Name = "Test1"
             });
             _thingyRepository.Create(new Thingy
             {
-                Id = "Thingy:Hate",
+                Id = Guid.NewGuid(),
                 Name = "Test2"
             });
 
             // insert object
-            var thingies = new List<Thingy>
-            {
-                _thingyRepository.Get("Thingy:Love"),
-                _thingyRepository.Get("Thingy:Hate")
-            };
+            var thingies = _thingyRepository.FindAll();
             foreach (var thingy in thingies)
             {
                 _thingyRepository.Delete(thingy.Id);

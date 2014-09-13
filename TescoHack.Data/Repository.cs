@@ -1,5 +1,9 @@
 ﻿using System;
-using ServiceStack.Redis;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using TescoHack.Domain;
 
 namespace TescoHack.Data
@@ -7,27 +11,52 @@ namespace TescoHack.Data
     public class Repository<T> : IRepository<T>
         where T : DomainObject
     {
-        protected readonly RedisClient RedisClient;
+        protected readonly MongoDatabase _mongoDatabase;
 
-        public Repository(RedisClient redisClient)
+        public Repository(MongoDatabase mongoDatabase)
         {
-            RedisClient = redisClient;
+            _mongoDatabase = mongoDatabase;
         }
 
         public void Create(T item)
         {
+            var collection = _mongoDatabase.GetCollection<T>(typeof(T).Name);
             item.Updated = item.Created = DateTime.Now;
-            RedisClient.Set(item.Id, item);
+            collection.Insert(item);
         }
 
-        public T Get(string id)
+        public IList<T> FindAll()
         {
-            return RedisClient.Get<T>(id);
+            var collection = _mongoDatabase.GetCollection<T>(typeof(T).Name);
+            return collection.FindAll().ToList();
         }
 
-        public void Delete(string id)
+        public IList<T> FindBy<TArg>(Expression<Func<T, TArg>> expression, IEnumerable<TArg> args)
         {
-            RedisClient.Remove(id);
+            var collection = _mongoDatabase.GetCollection<T>(typeof(T).Name);
+            var query = Query<T>.In(expression, args);
+            return collection.FindAs<T>(query).ToList();
+        }
+
+        public T Get(Guid id)
+        {
+            var collection = _mongoDatabase.GetCollection<T>(typeof(T).Name);
+            var query = Query<T>.EQ(e => e.Id, id);
+            return collection.FindOne(query);
+        }
+
+        public void Update(T item)
+        {
+            var collection = _mongoDatabase.GetCollection<T>(typeof(T).Name);
+            item.Updated = DateTime.Now;
+            collection.Save(item);
+        }
+
+        public void Delete(Guid id)
+        {
+            var query = Query<T>.EQ(e => e.Id, id);
+            var collection = _mongoDatabase.GetCollection<T>(typeof(T).Name);
+            collection.Remove(query);
         }
     }
 }
