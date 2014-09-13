@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Configuration;
+using AutoMapper;
 using Molibar.Framework.Configuration;
 using Molibar.Framework.IoC;
 using MongoDB.Driver;
@@ -31,11 +32,12 @@ namespace TescoHack.Api.IoC
 
                 For<MongoDatabase>().Singleton().UseSpecial(expression =>
                 {
-                    var connectionString = Config.Get("Mongo_ConnectionString");
-                    var client = new MongoClient(connectionString);
+                    var connectionstring = ConfigurationManager.AppSettings.Get("MONGOLAB_URI");
+                    var url = new MongoUrl(connectionstring);
+                    var client = new MongoClient(url);
                     var server = client.GetServer();
-                    var databaseName = Config.Get("Mongo_DatabaseName");
-                    var database = server.GetDatabase(databaseName);
+                    var database = server.GetDatabase(url.DatabaseName);
+
                     expression.Object(database);
                 });
 
