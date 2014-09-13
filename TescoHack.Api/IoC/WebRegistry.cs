@@ -5,6 +5,7 @@ using Molibar.Framework.IoC;
 using MongoDB.Driver;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
+using TescoHack.Api.Controllers;
 using TescoHack.Data;
 using TescoHack.Domain;
 
@@ -30,6 +31,7 @@ namespace TescoHack.Api.IoC
                 //    expression.Object(new ApiProxy(userAgent, logger));
                 //});
 
+                new LogEvent("Web Registry").Raise();
                 For<MongoDatabase>().Singleton().UseSpecial(expression =>
                 {
                     var connectionstring = ConfigurationManager.AppSettings.Get("MONGOLAB_URI");
