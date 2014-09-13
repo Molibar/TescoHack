@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Listview - jQuery Mobile Demos</title>
+	<link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.4.min.css">
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/jquery.mobile-1.4.4.min.js"></script>
+	<style id="custom-icon">
+        .ui-icon-custom:after {
+			background-image: url("../_assets/img/glyphish-icons/21-skull.png");
+			background-position: 3px 3px;
+			background-size: 70%;
+		}
+    </style>
+</head>
+<body>
+	<div class="wrapper">
+		
+		<!-- header -->
+		<h1>Quest List</h1>
+
+		<!-- Searchbox -->
+		<div class="row-searchquest">
+
+			<form class="ui-filterable">
+				<input id="autocomplete-input" data-type="search" placeholder="Search fruits...">
+			</form>
+			<ul data-role="listview" data-filter="true" data-filter-reveal="true" data-input="#autocomplete-input" data-inset="true">
+				<li><a href="#">Apple</a></li>
+				<li><a href="#">Banana</a></li>
+				<li><a href="#">Cherry</a></li>
+				<li><a href="#">Cranberry</a></li>
+				<li><a href="#">Grape</a></li>
+				<li><a href="#">Orange</a></li>
+			</ul>
+
+		</div>
+		<!-- Selected Questlist -->
+		<div class="row-questlist">
+
+			<ul data-role="listview" data-split-icon="arrow-r" data-split-theme="a" data-inset="true">
+				<li><a href="#">
+					<img src="img/potato.jpg">
+				<h2>Potato</h2>
+				<p>Score: 1020</p></a>
+					<a href="#purchase" data-rel="popup" data-position-to="window" data-transition="pop">Purchase album</a>
+				</li>
+				<li><a href="#">
+					<img src="img/apple.jpg">
+				<h2>Apple</h2>
+				<p>Score: 990</p></a>
+					<a href="#purchase" data-rel="popup" data-position-to="window" data-transition="pop">Purchase album</a>
+				</li>
+				<li><a href="#">
+					<img src="img/chocolate.jpg">
+				<h2>Chocolate</h2>
+				<p>Score: 120</p></a>
+					<a href="#purchase" data-rel="popup" data-position-to="window" data-transition="pop">Purchase album</a>
+				</li>
+			</ul>
+			<!-- POPUP for -->
+			<div data-role="popup" id="purchase" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
+				<h3>Info</h3>
+			<p>Your download will begin immediately on your mobile device when you purchase.</p>
+				<a href="index.html" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-left ui-btn-inline ui-mini">Buy: $10.99</a>
+				<a href="index.html" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<!-- Footer -->
+
+	<div data-role="footer" class="nav-glyphish-example" data-theme="a">
+        <div data-role="navbar" class="nav-glyphish-example" data-grid="b">
+            <ul>
+                <li><a href="#" class="js-btn-quest quest-icon" data-icon="custom" class="ui-btn-active">Quest List</a></li>
+                <li><a href="#" class="js-btn-game game-icon" data-icon="custom">Conquer</a></li>
+                <li><a href="#" class="js-btn-leaderboard leaderboard-icon" data-icon="custom">Leaderboards</a></li>
+            </ul>
+        </div>
+	</div>
+
+</body>
+</html>
