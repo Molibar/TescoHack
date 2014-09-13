@@ -1,8 +1,10 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using AutoMapper;
 using Molibar.Framework.Configuration;
 using Molibar.Framework.IoC;
 using MongoDB.Driver;
+using ServiceStack.Redis;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 using TescoHack.Api.Controllers;
@@ -21,7 +23,7 @@ namespace TescoHack.Api.IoC
                 scan.AssemblyContainingType<Repository<Game>>();
                 scan.AssemblyContainingType<FrameworkRegistry>();
 
-                For(typeof(IRepository<>)).Use(typeof(Repository<>));
+                For(typeof (IRepository<>)).Use(typeof (Repository<>));
 
                 //For<IApiProxy>().Singleton().UseSpecial(expression =>
                 //{
@@ -41,6 +43,22 @@ namespace TescoHack.Api.IoC
                     var database = server.GetDatabase(url.DatabaseName);
 
                     expression.Object(database);
+                });
+
+
+                For<RedisClient>().Singleton().UseSpecial(expression =>
+                {
+                    var redisCloudUrl = ConfigurationManager.AppSettings.Get("REDISCLOUD_URL");
+                    var connectionUri = new Uri
+                        (
+                        redisCloudUrl
+                        );
+                    var redis = new RedisClient
+                        (
+                        connectionUri
+                        );
+
+                    expression.Object(redis);
                 });
 
                 scan.AddAllTypesOf<Profile>();

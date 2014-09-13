@@ -23,17 +23,21 @@ namespace TescoHack.Api.Controllers
         {
             _thingyRepository.Create(new Thingy
             {
-                Id = Guid.NewGuid(),
+                Id = "Thingy:Love",
                 Name = "Test1"
             });
             _thingyRepository.Create(new Thingy
             {
-                Id = Guid.NewGuid(),
+                Id = "Thingy:Hate",
                 Name = "Test2"
             });
 
             // insert object
-            var thingies = _thingyRepository.FindAll();
+            var thingies = new List<Thingy>
+            {
+                _thingyRepository.Get("Thingy:Love"),
+                _thingyRepository.Get("Thingy:Hate")
+            };
             foreach (var thingy in thingies)
             {
                 _thingyRepository.Delete(thingy.Id);
