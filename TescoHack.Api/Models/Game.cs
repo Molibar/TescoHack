@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TescoHack.Api.Models
 {
@@ -21,14 +22,14 @@ namespace TescoHack.Api.Models
                         new Character
                         {
                             Name = "Tony",
-                            Energy = 100,
+                            Score = 0,
                             //CheckInTime = DateTime.Now,
                             //CheckOutTime = DateTime.Now
                         },
                         new Character
                         {
                             Name = "Lisa",
-                            Energy = 100,
+                            Score = 0,
                         }
                     }
                 },
@@ -51,6 +52,13 @@ namespace TescoHack.Api.Models
                     }
                 }
             };
+        }
+
+        public void FinishMission(string characterName, string missionName)
+        {
+            var character = Team.Characters.FirstOrDefault(x => x.Name == characterName);
+            var mission = Quest.Missions.FirstOrDefault(x => x.Name == missionName);
+
         }
     }
 
@@ -77,8 +85,23 @@ namespace TescoHack.Api.Models
     public class Character
     {
         public string Name { get; set; }
-        public int Energy { get; set; }
+        public int Energy { get { return CalculateEnergy(); } }
+
+        private int CalculateEnergy()
+        {
+            if (!CheckInTime.HasValue) return Score + 100;
+            var endTime = DateTime.Now;
+            if (CheckOutTime.HasValue) endTime = CheckOutTime.Value;
+            var energy = Score - (endTime.Subtract(CheckInTime.Value)).Seconds;
+            energy = Math.Max(0, energy);
+            energy = Math.Min(100, energy);
+            return energy;
+        }
+
+        public int Score { get; set; }
         public DateTime? CheckInTime { get; set; }
         public DateTime? CheckOutTime { get; set; }
+
+
     }
 }

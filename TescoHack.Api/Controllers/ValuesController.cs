@@ -1,10 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
 using TescoHack.Api.Datas;
 using TescoHack.Api.Models;
+using ActionFilterAttribute = System.Web.Http.Filters.ActionFilterAttribute;
 
 namespace TescoHack.Api.Controllers
 {
+    public class AcceptCorsAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
+        {
+            base.OnActionExecuted(actionExecutedContext);
+            actionExecutedContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+        }
+    }
+
+    [AcceptCors]
     public class GameController : ApiController
     {
         // GET api/values
@@ -20,9 +33,10 @@ namespace TescoHack.Api.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]Game value)
+        public Game Post([FromBody]Game value)
         {
             Database.Game = Game.Init();
+            return Database.Game;
         }
 
         // PUT api/values/5
