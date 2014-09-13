@@ -14,7 +14,7 @@ namespace TescoHack.Api.Controllers
 
         public TestController(IRepository<Thingy> thingyRepository)
         {
-            new LogEvent("TestController Constructor " + thingyRepository).Raise();
+            //new LogEvent("TestController Constructor " + thingyRepository).Raise();
             _thingyRepository = thingyRepository;
         }
 

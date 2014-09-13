@@ -33,7 +33,7 @@ namespace TescoHack.Api.IoC
                 //    expression.Object(new ApiProxy(userAgent, logger));
                 //});
 
-                new LogEvent("Web Registry").Raise();
+                //new LogEvent("Web Registry").Raise();
                 //For<MongoDatabase>().Singleton().UseSpecial(expression =>
                 //{
                 //    var connectionstring = ConfigurationManager.AppSettings.Get("MONGOLAB_URI");
