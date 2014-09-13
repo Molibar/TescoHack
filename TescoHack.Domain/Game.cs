@@ -22,7 +22,7 @@ namespace TescoHack.Domain
             var now = DateTime.Now;
             return new Game
             {
-                Id = Guid.NewGuid(),
+                Id = "Flash",
                 Created = now,
                 Updated = now,
                 Team = new Team

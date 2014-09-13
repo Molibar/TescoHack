@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Http;
+using Molibar.Framework.Extensions;
 using TescoHack.Domain;
 
 namespace TescoHack.Api.Controllers
@@ -17,13 +17,13 @@ namespace TescoHack.Api.Controllers
         // GET: api/Game
         public IEnumerable<Game> Get()
         {
-            return _gameRepository.FindAll();
+            return _gameRepository.Get("Flash").ToSingleElementList();
         }
 
         // GET: api/Game/5
-        public Game Get(Guid id)
+        public Game Get(string id)
         {
-            return _gameRepository.Get(id);
+            return _gameRepository.Get("Flash");
         }
 
         // POST: api/Game
@@ -32,22 +32,20 @@ namespace TescoHack.Api.Controllers
             if (game == null)
             {
                 game = Game.Init();
-                _gameRepository.Create(game);
-                return game;
             }
-            _gameRepository.Update(game);
+            _gameRepository.Create(game);
             return game;
         }
 
         // PUT: api/Game/5
-        public Game Put(Guid id, [FromBody]Game game)
+        public Game Put(string id, [FromBody]Game game)
         {
-            _gameRepository.Update(game);
-            return game;
+            game.Id = id;
+            return Post(game);
         }
 
         // DELETE: api/Game/5
-        public void Delete(Guid id)
+        public void Delete(string id)
         {
             _gameRepository.Delete(id);
         }
