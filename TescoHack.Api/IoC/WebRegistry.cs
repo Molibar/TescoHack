@@ -34,16 +34,16 @@ namespace TescoHack.Api.IoC
                 //});
 
                 new LogEvent("Web Registry").Raise();
-                For<MongoDatabase>().Singleton().UseSpecial(expression =>
-                {
-                    var connectionstring = ConfigurationManager.AppSettings.Get("MONGOLAB_URI");
-                    var url = new MongoUrl(connectionstring);
-                    var client = new MongoClient(url);
-                    var server = client.GetServer();
-                    var database = server.GetDatabase(url.DatabaseName);
-
-                    expression.Object(database);
-                });
+                //For<MongoDatabase>().Singleton().UseSpecial(expression =>
+                //{
+                //    var connectionstring = ConfigurationManager.AppSettings.Get("MONGOLAB_URI");
+                //    var url = new MongoUrl(connectionstring);
+                //    var client = new MongoClient(url);
+                //    var server = client.GetServer();
+                //    var database = server.GetDatabase(url.DatabaseName);
+                //
+                //    expression.Object(database);
+                //});
 
 
                 For<RedisClient>().Singleton().UseSpecial(expression =>
