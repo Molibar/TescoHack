@@ -1,30 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TescoHack.Domain
+namespace TescoHack.Api.Models
 {
-    public class Game : DomainObject
+    public class Game
     {
+        public string Id { get; set; }
         public Team Team { get; set; }
         public Quest Quest { get; set; }
 
-        public Game()
-        {
-        }
-
-        public Game(Game game)
-            : base(game)
-        {
-        }
-
         public static Game Init()
         {
-            var now = DateTime.Now;
             return new Game
             {
-                Id = Guid.NewGuid(),
-                Created = now,
-                Updated = now,
                 Team = new Team
                 {
                     Name = "The Smiths",

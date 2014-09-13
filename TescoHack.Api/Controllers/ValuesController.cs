@@ -1,39 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
+using TescoHack.Api.Datas;
+using TescoHack.Api.Models;
 
 namespace TescoHack.Api.Controllers
 {
-    public class ValuesController : ApiController
+    public class GameController : ApiController
     {
         // GET api/values
-        public IEnumerable<string> Get()
+        public IEnumerable<Game> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new[] {Database.Game};
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public Game Get(string id)
         {
-            return "value";
+            return Database.Game;
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Game value)
         {
+            Database.Game = Game.Init();
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(string id, [FromBody]Game value)
         {
+            value.Id = id;
+            Database.Game = value;
         }
 
         // DELETE api/values/5
-        public void Delete(int id)
+        public void Delete(string id)
         {
+            Database.Game = null;
         }
     }
 }
