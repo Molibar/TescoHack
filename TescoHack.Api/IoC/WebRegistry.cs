@@ -48,7 +48,8 @@ namespace TescoHack.Api.IoC
 
                 For<RedisClient>().Singleton().UseSpecial(expression =>
                 {
-                    var redisCloudUrl = ConfigurationManager.AppSettings.Get("REDISCLOUD_URL");
+                    var redisCloudUrl =
+                        "redis://rediscloud:hw0A6IgTFV5locf5@pub-redis-17519.eu-west-1-1.1.ec2.garantiadata.com:17519";//ConfigurationManager.AppSettings.Get("REDISCLOUD_URL");
                     var connectionUri = new Uri
                         (
                         redisCloudUrl
