@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Management;
 using MongoDB.Bson;
 using TescoHack.Domain;
 
@@ -13,6 +14,7 @@ namespace TescoHack.Api.Controllers
 
         public TestController(IRepository<Thingy> thingyRepository)
         {
+            new LogEvent("TestController Constructor " + thingyRepository).Raise();
             _thingyRepository = thingyRepository;
         }
 
@@ -37,6 +39,14 @@ namespace TescoHack.Api.Controllers
                 _thingyRepository.Delete(thingy.Id);
             }
             return thingies;
+        }
+    }
+
+    public class LogEvent : WebRequestErrorEvent
+    {
+        public LogEvent(string message)
+            : base(null, null, 100001, new Exception(message))
+        {
         }
     }
 
