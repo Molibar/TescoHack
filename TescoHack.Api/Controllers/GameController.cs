@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using TescoHack.Domain;
 
@@ -6,36 +7,49 @@ namespace TescoHack.Api.Controllers
 {
     public class GameController : ApiController
     {
-        public GameController(IRepository<Game> questRepository)
+        private readonly IRepository<Game> _gameRepository;
+
+        public GameController(IRepository<Game> gameRepository)
         {
-            
+            _gameRepository = gameRepository;
         }
 
         // GET: api/Game
-        public IEnumerable<string> Get()
+        public IEnumerable<Game> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _gameRepository.FindAll();
         }
 
         // GET: api/Game/5
-        public string Get(int id)
+        public Game Get(Guid id)
         {
-            return "value";
+            return _gameRepository.Get(id);
         }
 
         // POST: api/Game
-        public void Post([FromBody]string value)
+        public Game Post([FromBody]Game game)
         {
+            if (game == null)
+            {
+                game = Game.Init();
+                _gameRepository.Create(game);
+                return game;
+            }
+            _gameRepository.Update(game);
+            return game;
         }
 
         // PUT: api/Game/5
-        public void Put(int id, [FromBody]string value)
+        public Game Put(Guid id, [FromBody]Game game)
         {
+            _gameRepository.Update(game);
+            return game;
         }
 
         // DELETE: api/Game/5
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
+            _gameRepository.Delete(id);
         }
     }
 }
