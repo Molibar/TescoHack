@@ -54,11 +54,29 @@ namespace TescoHack.Api.Models
             };
         }
 
-        public void FinishMission(string characterName, string missionName)
+        public void FinishMission(string characterName, int missionId)
         {
             var character = Team.Characters.FirstOrDefault(x => x.Name == characterName);
-            var mission = Quest.Missions.FirstOrDefault(x => x.Name == missionName);
+            var mission = Quest.Missions.FirstOrDefault(x => x.Id == missionId);
+            if (mission == null) return;
+            mission.Finished = true;
+            if (character == null) return;
+            character.Score += mission.Score;
+            character.Inventory.Add(mission);
+        }
 
+        public void CheckIn(string characterName)
+        {
+            var character = Team.Characters.FirstOrDefault(x => x.Name == characterName);
+            if (character == null) return;
+            character.CheckInTime = DateTime.Now;
+        }
+
+        public void CheckOut(string characterName)
+        {
+            var character = Team.Characters.FirstOrDefault(x => x.Name == characterName);
+            if (character == null) return;
+            character.CheckOutTime = DateTime.Now;
         }
     }
 
@@ -69,6 +87,7 @@ namespace TescoHack.Api.Models
 
     public class Mission
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public int Score { get; set; }
         public bool Finished { get; set; }
@@ -101,7 +120,6 @@ namespace TescoHack.Api.Models
         public int Score { get; set; }
         public DateTime? CheckInTime { get; set; }
         public DateTime? CheckOutTime { get; set; }
-
-
+        public List<Mission> Inventory { get; set; }
     }
 }
