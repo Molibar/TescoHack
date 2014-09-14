@@ -133,7 +133,8 @@ namespace TescoHack.Api.Models
 
         private string GetAlignment()
         {
-            var alignmentValue = Inventory.Sum(x => x.Score);
+            var alignmentValue = 0;
+            if (Inventory != null) alignmentValue = Inventory.Sum(x => x.Score);
             if (alignmentValue <= -10) return "Bad";
             if (alignmentValue < 10) return "Neutral";
             return "Good";
