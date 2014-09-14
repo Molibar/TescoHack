@@ -107,7 +107,7 @@ namespace TescoHack.Api.Models
     {
         public string Name { get; set; }
         public int Energy { get { return CalculateEnergy(); } }
-        public string Avatar { get { return CalculateAvatar(this.Name); } }
+        public string Avatar { get { return CalculateAvatar(Name); } }
         public bool Male { get; set; }
         public int Score { get; set; }
         public DateTime? CheckInTime { get; set; }

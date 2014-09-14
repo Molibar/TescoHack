@@ -1,6 +1,6 @@
-var app = (function () {
+var common = (function () {
 	return {
-		getCharacterIndex: function(name) {
+		getCharacterIndex: function() {
 			return this.getCookie("char_index");
 		},
 		setCharacterIndex: function(index) {
