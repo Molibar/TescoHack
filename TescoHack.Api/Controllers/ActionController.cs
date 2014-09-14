@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Collections.Generic;
+using System.Web.Http;
 using TescoHack.Api.Datas;
 using TescoHack.Api.Models;
 
@@ -42,20 +43,19 @@ namespace TescoHack.Api.Controllers
 
         [HttpGet]
         [Route("api/Scores/{table}")]
-        public Game CheckIn(string table)
+        public List<HighScore> Get(string table)
         {
-            if (Database.Game == null) Database.Game = Game.Init();
-            Database.Game.CheckIn(characterName);
-            return Database.Game;
+            if (Database.HighScores == null) return null;
+            return Database.HighScores[table];
         }
 
         [HttpPost]
         [Route("api/Scores/{table}")]
-        public Game Scan(string table, string name, string score)
+        public List<HighScore> Post(string table, string name, int score)
         {
             if (Database.Game == null) Database.Game = Game.Init();
-            Database.Scores.FinishMission(characterName, missionId);
-            return Database.Game;
+            Database.HighScores[table].Add(new HighScore{Name = name, Score = score});
+            return Database.HighScores[table];
         }
     }
 }
