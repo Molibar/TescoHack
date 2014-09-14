@@ -11,7 +11,11 @@
 	<link rel="stylesheet" href="css/main.css">
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/jquery.mobile-1.4.4.min.js"></script>
+<<<<<<< HEAD
 	<script src="js/gamescene.js"></script>
+=======
+        <script src="js/angular.min.js"></script>
+>>>>>>> 2dbb9eaa8398448d9d7e5340e98e57d8b894e414
 	<style id="custom-icon">
         .ui-icon-custom:after {
 			background-image: url("../_assets/img/glyphish-icons/21-skull.png");
@@ -19,8 +23,97 @@
 			background-size: 70%;
 		}
     </style>
+    
+    
+    
+    <script>
+        
+
+        
+                    var app = angular.module('tescoApp', []);
+                    //app.controller('TescoController', ['$http'], function($http){
+                    app.controller('TescoController', function($http){
+                    var tesco = this;
+                            tesco.info = "yeah";
+                            tesco.game = [];
+                            tesco.currentUser = "";
+                            tesco.missionId = 0;
+                            tesco.products = [];
+                            tesco.sessionKey = "";
+                            tesco.searchTerm = "";
+                            /*Initialise Game*/
+
+                            
+/*
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/Game"
+
+                            }).success(function(data){
+                    tesco.game = data;
+                    });
+                      */
+
+                            var urlRoot = 'https://secure.techfortesco.com/groceryapi/restservice.aspx?';
+                            var jcb = '&JSONP=JSON_CALLBACK';
+                            /*
+                            $http.jsonp(urlRoot + 'command=LOGIN' + jcb + '&email=&password=&developerkey=0ujRTU8FlFnyfad11Ium&applicationkey=417361BD075D0FCFD502').success(function(data){
+                    tesco.sessionKey = data.SessionKey;
+                    });*/
+                            tesco.add = function(data){
+                            tesco.game.Quest.Missions.push(data);
+                            };
+                            tesco.output = function(){
+
+                            console.log(tesco.game.Quest.Missions);
+                            };
+                            tesco.CheckIn = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/CheckIn/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            tesco.CheckOut = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/CheckOut/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            
+                     
+                            tesco.SubmitScan = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/Scan/" + tesco.missionId + "/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            tesco.apiCall = function(){
+
+                            $http.jsonp(urlRoot + 'command=PRODUCTSEARCH' + jcb + '&searchtext=' + tesco.searchTerm + '&sessionkey=' + tesco.sessionKey + '&page=1&developerkey=0ujRTU8FlFnyfad11Ium&applicationkey=417361BD075D0FCFD502').success(function(data){
+                            console.log(data);
+                                    tesco.products = data.Products;
+                            });
+                            };
+                    });       
+                    
+    $( document ).ready(function() {
+        
+      });
+    
+    </script>
+    
+    
 </head>
-<body>
+<body ng-app="tescoApp" ng-controller="TescoController as Tesco">
 	<div class="wrapper">
 
 		<div class="row-head">
