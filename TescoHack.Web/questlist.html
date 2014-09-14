@@ -23,9 +23,6 @@
     
     <script>
         
-        $( document ).ready(function() {
-  console.log(products);
-});
 
         
                     var app = angular.module('tescoApp', []);
@@ -37,20 +34,22 @@
                             tesco.currentUser = "";
                             tesco.missionId = 0;
                             tesco.products = [];
+                            tesco.questlist = [];
                             tesco.sessionKey = "";
                             tesco.searchTerm = "";
                             /*Initialise Game*/
 
-                            
-/*
+                            tesco.products = products;
+
                             $http({
                             method: "post",
                                     url: "http://tescohack.apphb.com/api/Game"
 
                             }).success(function(data){
                     tesco.game = data;
+                    console.log(tesco.game.Quest);
                     });
-                      */
+                      
 
                             var urlRoot = 'https://secure.techfortesco.com/groceryapi/restservice.aspx?';
                             var jcb = '&JSONP=JSON_CALLBACK';
@@ -59,8 +58,15 @@
                     tesco.sessionKey = data.SessionKey;
                     });*/
                             tesco.add = function(data){
-                            tesco.game.Quest.Missions.push(data);
+                                tesco.game.Quest.Missions.push(data);
                             };
+                            
+                            tesco.addQuest = function(data){
+                                
+                                tesco.game.Quest.Missions.push(data);
+                            };
+                            
+                            
                             tesco.output = function(){
 
                             console.log(tesco.game.Quest.Missions);
@@ -116,13 +122,13 @@
 			<form class="ui-filterable">
 				<input id="autocomplete-input" data-type="search" placeholder="Search fruits...">
 			</form>
-			<ul data-role="listview" data-filter="true" data-filter-reveal="true" data-input="#autocomplete-input" data-inset="true">
-				<li><a href="#">Apple</a></li>
-				<li><a href="#">Banana</a></li>
-				<li><a href="#">Cherry</a></li>
-				<li><a href="#">Cranberry</a></li>
-				<li><a href="#">Grape</a></li>
-				<li><a href="#">Orange</a></li>
+			<ul data-role="listview" data-filter="true" data-filter-reveal="true" data-input="#autocomplete-input" data-inset="true" >
+				<li ng-repeat="item in Tesco.products"><a href="#">
+                                          <img ng-src="tesco_img/{{item.Id}}.jpg"/>
+                                        {{item.Name}}</a>
+                                    <button ng-click="Tesco.addQuest(item)">Add</button>
+                                </li>
+				
 			</ul>
 
 		</div>
@@ -132,6 +138,13 @@
 		<!-- Selected Questlist -->
 		<div class="row-questlist">
 
+                    
+                    <ul data-role="listview" data-split-icon="arrow-r" data-split-theme="a" data-inset="true">
+                        <li ng-repeat="item in Tesco.game.Quest.Missions"><a href="#">
+                                          <img ng-src="tesco_img/{{item.Id}}.jpg"/>
+                                        {{item.Name}}</a></li>
+                    </ul>
+                    
 			<ul data-role="listview" data-split-icon="arrow-r" data-split-theme="a" data-inset="true">
 				<li><a href="#">
 					<img src="img/potato.jpg">
