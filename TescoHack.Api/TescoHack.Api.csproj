@@ -378,7 +378,7 @@
     <Content Include="gamescene.html" />
     <Content Include="gamestart.html" />
     <Content Include="Global.asax" />
-    <Content Include="img\6d4e1644d392eff88c4585c6fc863b0cbb740cdfb0effbf66a7476e925ffc2736ea273f350062602da39a3ee5e6b4b0d3255bfef95601890afd80709d2cb9918d1f923965913aa4a6bc919b1.png" />
+    <Content Include="img\hurry.png" />
     <Content Include="img\apple.jpg" />
     <Content Include="img\avatars\BadBoy.png" />
     <Content Include="img\avatars\BadGirl.png" />
