@@ -26,14 +26,48 @@
     <script>
         
 
+function setCookie(cname, cvalue) {
+    var d = new Date();
+    d.setTime(d.getTime() + (30*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+    }
+    return "";
+}
+
         
                     var app = angular.module('tescoApp', []);
                     //app.controller('TescoController', ['$http'], function($http){
-                    app.controller('TescoController', function($http){
+                    app.controller('TescoController', function($http, $interval){
                     var tesco = this;
                             tesco.info = "yeah";
+                            tesco.noOfItem = 5;
+                            tesco.currentItem = 1;
+                            
                             tesco.game = [];
-                            tesco.currentUser = "";
+                            var username = getCookie("username");
+                            if(username !=""){
+                                tesco.currentUser = username;
+                                username = getCookie("username");
+                                tesco.currentUser =  getCookie("userId");
+                                
+                            }else{
+                                tesco.currentUser = "Tony";
+                           setCookie("username","Tony")     
+                                tesco.currentUser = 0;
+                                setCookie("userId",0)     
+                            }
+                            
                             tesco.missionId = 0;
                             tesco.products = [];
                             tesco.sessionKey = "";
@@ -83,15 +117,55 @@
                             });
                             };
                             
+                            tesco.reload = function(){
+                                $.ajax({
+                                    type: "POST",
+                                    url:  "http://tescohack.apphb.com/api/Game",
+                                    data: tesco.game,
+                                    success: function(data){
+                                          tesco.game = data;
+                                           tesco.rebind();
+                                    }
+                                  });
+                            }
+                            
+                            tesco.rebind = function(){
+                                
+                                var eng = tesco.game.Team.Characters[0].Engergy;
+                                if(eng>=100){
+                                    eng = 100;
+                                }
+                                if(eng<0){
+                                    eng = 0;
+                                }
+                                $(".timebar-inner").css('width', eng + '%');
+                            }
+                            
+                            
                      
-                            tesco.SubmitScan = function(){
+                            tesco.SubmitScan = function(id){
+                                tesco.missionId=id;
+                               console.log(tesco.missionId );
+                               console.log(tesco.currentUser);
+                          $.ajax({
+                                    type: "POST",
+                                    url:  "http://tescohack.apphb.com/api/Scan/"+ tesco.missionId + "/" + tesco.currentUser,
+                                    
+                                    success: function(data){
+                                          tesco.game = data;
+                                        console.log(tesco.game);                              
+                                    }
+                                  });
+                                  
+                                  
+        /*
                             $http({
                             method: "post",
                                     url: "http://tescohack.apphb.com/api/Scan/" + tesco.missionId + "/" + tesco.currentUser
 
                             }).success(function(data){
                             tesco.game = data;
-                            });
+                            }); */
                             };
                             tesco.apiCall = function(){
 
@@ -100,11 +174,13 @@
                                     tesco.products = data.Products;
                             });
                             };
+                            
+                            $interval(function() {
+                               tesco.reload();
+                            }, 5000);
                     });       
                     
-    $( document ).ready(function() {
-        
-      });
+ 
     
     </script>
     
@@ -124,11 +200,11 @@
 		<div class="row-content">
 			<div class="row-content-map">
 				<img src="img/map.jpg" />
-				<div class="star star-1"><img src="img/star.png" /></div>
-				<div class="star star-2"><img src="img/star.png" /></div>
-				<div class="star star-3"><img src="img/star.png" /></div>
-				<div class="star star-4"><img src="img/star.png" /></div>
-				<div class="star star-5"><img src="img/star.png" /></div>
+				<div class="star star-1"><img src="img/star.png" ng-click="Tesco.SubmitScan(1)" /></div>
+				<div class="star star-2"><img src="img/star.png" ng-click="Tesco.SubmitScan(2)" /></div>
+				<div class="star star-3"><img src="img/star.png" ng-click="Tesco.SubmitScan(3)"/></div>
+				<div class="star star-4"><img src="img/star.png" ng-click="Tesco.SubmitScan(4)"/></div>
+				<div class="star star-5"><img src="img/star.png" ng-click="Tesco.SubmitScan(5)" /></div>
 			</div>
 		</div>
 
@@ -138,7 +214,7 @@
 			</div>
 		</div>
 
-		<button class="ui-btn ui-btn-b ui-shadow">SCAN</button>
+		<button class="ui-btn ui-btn-b ui-shadow" ng-click="Tesco.SubmitScan()">SCAN</button>
 
 		<div class="row-inventory">
 			<div class="row-inventory-inner">
