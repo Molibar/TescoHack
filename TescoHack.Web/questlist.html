@@ -23,8 +23,6 @@
     
     <script>
         
-
-        
                     var app = angular.module('tescoApp', []);
                     //app.controller('TescoController', ['$http'], function($http){
                     app.controller('TescoController', function($http){
@@ -62,8 +60,10 @@
                             };
                             
                             tesco.addQuest = function(data){
-                                
                                 tesco.game.Quest.Missions.push(data);
+								$('#autocomplete-input').val('');
+								$('#autocomplete-input').change();
+
                             };
                             
                             
@@ -123,12 +123,14 @@
 				<input id="autocomplete-input" data-type="search" placeholder="Search fruits...">
 			</form>
 			<ul data-role="listview" data-filter="true" data-filter-reveal="true" data-input="#autocomplete-input" data-inset="true" >
-				<li ng-repeat="item in Tesco.products"><a href="#">
-                                          <img ng-src="tesco_img/{{item.Id}}.jpg"/>
-                                        {{item.Name}}</a>
-                                    <button ng-click="Tesco.addQuest(item)">Add</button>
-                                </li>
-				
+				<li ng-repeat="item in Tesco.products" ng-click="Tesco.addQuest(item)">
+					<a href="#">
+						<img src="tesco_img/{{item.Id}}.jpg" />
+						<h2>{{item.Name}}</h2>
+						<p>Score: {{item.Score}}</p>
+					</a>
+					<a href="#purchase" data-rel="popup" data-position-to="window" data-transition="pop">Info</a>
+				</li>
 			</ul>
 
 		</div>
@@ -138,39 +140,25 @@
 		<!-- Selected Questlist -->
 		<div class="row-questlist">
 
-                    
-                    <ul data-role="listview" data-split-icon="arrow-r" data-split-theme="a" data-inset="true">
-                        <li ng-repeat="item in Tesco.game.Quest.Missions"><a href="#">
-                                          <img ng-src="tesco_img/{{item.Id}}.jpg"/>
-                                        {{item.Name}}</a></li>
-                    </ul>
-                    
+			
 			<ul data-role="listview" data-split-icon="arrow-r" data-split-theme="a" data-inset="true">
-				<li><a href="#">
-					<img src="img/potato.jpg">
-				<h2>Potato</h2>
-				<p>Score: 1020</p></a>
-					<a href="#purchase" data-rel="popup" data-position-to="window" data-transition="pop">Purchase album</a>
-				</li>
-				<li><a href="#">
-					<img src="img/apple.jpg">
-				<h2>Apple</h2>
-				<p>Score: 990</p></a>
-					<a href="#purchase" data-rel="popup" data-position-to="window" data-transition="pop">Purchase album</a>
-				</li>
-				<li><a href="#">
-					<img src="img/chocolate.jpg">
-				<h2>Chocolate</h2>
-				<p>Score: 120</p></a>
-					<a href="#purchase" data-rel="popup" data-position-to="window" data-transition="pop">Purchase album</a>
+				<li ng-repeat="item in Tesco.game.Quest.Missions"><a href="#">
+					<img ng-src="tesco_img/{{item.Id}}.jpg"/>
+					<h2>{{item.Name}}</h2>
+					<p>Score: {{item.Score}}</p></a>
+					<a href="#purchase" data-rel="popup" data-position-to="window" data-transition="pop">Info</a>
 				</li>
 			</ul>
+
 			<!-- POPUP for -->
 			<div data-role="popup" id="purchase" data-theme="a" data-overlay-theme="b" class="ui-content" style="max-width:340px; padding-bottom:2em;">
-				<h3>Info</h3>
-			<p>Your download will begin immediately on your mobile device when you purchase.</p>
-				<a href="index.html" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-b ui-icon-check ui-btn-icon-left ui-btn-inline ui-mini">Buy: $10.99</a>
-				<a href="index.html" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Cancel</a>
+				<h3>Info (Per 100g)</h3>
+				<div><label>Energy (kcal)</label><span>201</span></div>
+				<div><label>Sugar (g)</label><span>2</span></div>
+				<div><label>Fat (g)</label><span>1</span></div>
+				<div><label>Fibre (g)</label><span>10</span></div>
+				<div><label>Protein (g)</label><span>5.7</span></div>
+				<a href="index.html" data-rel="back" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini">Close</a>
 			</div>
 
 		</div>
@@ -183,9 +171,9 @@
 	<div data-role="footer" class="nav-glyphish-example" data-theme="a">
         <div data-role="navbar" class="nav-glyphish-example" data-grid="b">
             <ul>
-                <li><a href="#" class="js-btn-quest quest-icon" data-icon="custom" class="ui-btn-active">Quest List</a></li>
-                <li><a href="#" class="js-btn-game game-icon" data-icon="custom" >Conquer</a></li>
-                <li><a href="#" class="js-btn-leaderboard leaderboard-icon" data-icon="custom">Leaderboards</a></li>
+                <li><a href="questlist.html" class="js-btn-quest quest-icon ui-btn-active" data-icon="custom">Quest List</a></li>
+                <li><a href="gamestart.html" class="js-btn-game game-icon" data-icon="custom" >Conquer</a></li>
+                <li><a href="leaderboard.html" class="js-btn-leaderboard leaderboard-icon" data-icon="custom">Leaderboards</a></li>
             </ul>
         </div>
 	</div>
