@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="tescoApp">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Listview - jQuery Mobile Demos</title>
+	<link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.4.min.css">
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/jquery.mobile-1.4.4.min.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/GameStartCtrl.js"></script>
+	<style id="custom-icon">
+        .ui-icon-custom:after {
+			background-image: url("../_assets/img/glyphish-icons/21-skull.png");
+			background-position: 3px 3px;
+			background-size: 70%;
+		}
+    </style>
+</head>
+<body ng-controller="GameStartCtrl">
+	<div class="wrapper">
+		<h1><img src="img/logo.png" /></h1>
+
+	<div class="example-animate-container">
+		<div class="animate-repeat" ng-repeat="character in game.Team.Characters">
+			<span><button ng-click="setSelectedIndex($index)"><img src="{{character.Avatar}}"/></button></span>
+			<span>{{character.Name}}</span>
+		</div>
+	</div>
+	
+		<a href="gamescene.html"><div class="check-btn"><img src="img/check-in.png" /></div></a>
+	</div>
+	<!-- Footer -->
+	
+	
+	<div data-role="footer" class="nav-glyphish-example" data-theme="a">
+        <div data-role="navbar" class="nav-glyphish-example" data-grid="b">
+            <ul>
+                <li><a href="questlist.html" class="js-btn-quest quest-icon" data-icon="custom">Quest List</a></li>
+                <li><a href="gamestart.html" class="js-btn-game game-icon ui-btn-active" data-icon="custom" >Conquer</a></li>
+                <li><a href="leaderboard.html" class="js-btn-leaderboard leaderboard-icon" data-icon="custom">Leaderboards</a></li>
+            </ul>
+        </div>
+	</div>
+
+</body>
+</html>

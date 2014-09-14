@@ -1,0 +1,123 @@
+h1, h2, h3, .font-lobster{
+	font-family: "Lobster";
+	font-weight: 400;
+}
+
+h2, h3{
+	color:#333;
+}
+
+img{
+	max-width: 100%;
+}
+body{
+	background: #EEF;
+}
+.wrapper{
+	margin: 10px;
+}
+
+.ui-footer {
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+}
+
+/* Queest List */
+.nav-glyphish-example .ui-btn { padding-top: 40px !important; }
+.nav-glyphish-example .ui-btn:after { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
+.quest-icon:after {  background-color: rgba(0,0,0,.0) !important; background-image:  url("images/list.png") !important; background-size: 24px 22px; }
+.game-icon:after {  background-color: rgba(0,0,0,.0) !important; background-image:  url("images/game.png")  !important; background-size: 24px 16px;  }
+.leaderboard-icon:after { background-color: rgba(0,0,0,.0) !important; background-image:  url("images/leaderboard.png") !important;  background-size: 12px 26px; }
+
+.check-btn{
+	text-align: center;
+}
+
+.check-btn img{
+	max-width: 80%;
+}
+#purchase label{
+	font-weight: bold;
+	width:120px;
+	display: inline-block;
+	font-family: "Lobster";
+	font-weight: 400;
+}
+#purchase span{
+	display: inline-block;
+}
+
+/* Game Scene */
+.row-inventory-item{
+	width: 50px;
+	height: 50px;
+	border: 1px #000 solid;
+	display: inline-block;
+}
+.row-inventory-inner{
+	white-space: nowrap;
+}
+.row-inventory{
+	overflow-x: scroll;
+}
+.row-content-map{
+	width:100%;
+	display:inline-block;
+}
+.row-content-timebar{
+	width:100%;
+	display:inline-block;
+}
+.timebar{
+	border: 1px #444 solid;
+	height: 12px;
+	width: 100%;
+	border-radius: 25px;
+	overflow: hidden;
+}
+.timebar-inner{
+	width: 70%;
+	height: 100%;
+	border-radius: 3px;
+	background: linear-gradient(to bottom, #46C , #23A);
+}
+.row-content-map img{
+	width: 100%;
+}
+.row-content-map{
+	position: relative;
+}
+.star{
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	top: 0;
+	z-index: 99999;
+}
+.star img{
+	width: 100%;
+}
+.star-1{
+	top: 10%;
+	left: 20%;
+}
+.star-2{
+	top: 20%;
+	left: 50%;
+}
+.star-3{
+	top: 40%;
+	left: 20%;
+}
+.star-4{
+	top: 60%;
+	left: 10%;
+}
+.star-5{
+	top: 70%;
+	left: 35%;
+}
+.board{
+	text-align: center;
+}
