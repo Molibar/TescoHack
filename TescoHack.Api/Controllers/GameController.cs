@@ -5,6 +5,7 @@ using TescoHack.Api.Models;
 
 namespace TescoHack.Api.Controllers
 {
+    [AcceptCors]
     public class GameController : ApiController
     {
         // GET api/values
@@ -20,9 +21,10 @@ namespace TescoHack.Api.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]Game value)
+        public Game Post([FromBody]Game value)
         {
             Database.Game = Game.Init();
+            return Database.Game;
         }
 
         // PUT api/values/5
