@@ -85,7 +85,17 @@ tesco.sessionKey = data.SessionKey;
         
         tesco.InitList = function(){
             console.log(tesco.game);
-            delete tesco.game.regex;
+               $.ajax({
+                                    type: "POST",
+                                    url:  "http://tescohack.apphb.com/api/Game",
+                                    data: tesco.game,
+                                    success: function(data){
+                                          tesco.game = data;
+            console.log(tesco.game);                              
+                                    }
+                                  });
+            
+            /*delete tesco.game.regex;
             $http({
                 method: "post",
                 url: "http://tescohack.apphb.com/api/Game",
@@ -95,7 +105,7 @@ tesco.sessionKey = data.SessionKey;
             console.log(data);                        
             tesco.game = data;
         
-        });
+        });*/
         };
         
 });        
