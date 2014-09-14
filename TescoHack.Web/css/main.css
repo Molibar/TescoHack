@@ -23,6 +23,7 @@ body{
 	width: 100%;
 }
 
+/* Queest List */
 .nav-glyphish-example .ui-btn { padding-top: 40px !important; }
 .nav-glyphish-example .ui-btn:after { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
 .quest-icon:after {  background-color: rgba(0,0,0,.0) !important; background-image:  url("images/list.png") !important; background-size: 24px 22px; }
@@ -35,6 +36,16 @@ body{
 
 .check-btn img{
 	max-width: 80%;
+}
+#purchase label{
+	font-weight: bold;
+	width:120px;
+	display: inline-block;
+	font-family: "Lobster";
+	font-weight: 400;
+}
+#purchase span{
+	display: inline-block;
 }
 
 /* Game Scene */
@@ -107,3 +118,4 @@ body{
 	top: 70%;
 	left: 35%;
 }
+
