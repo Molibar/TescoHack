@@ -23,7 +23,10 @@ namespace TescoHack.Api.Controllers
         // POST api/values
         public Game Post([FromBody]Game game)
         {
-            Database.Game = game ?? Game.Init();
+            if (game == null)
+            {
+                if (Database.Game == null) Database.Game = Game.Init();
+            }
             return Database.Game;
         }
 

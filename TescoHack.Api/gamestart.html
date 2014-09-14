@@ -28,8 +28,7 @@
 
 	<div class="example-animate-container">
 		<div class="animate-repeat" ng-repeat="character in game.Team.Characters">
-			<span><button ng-click="setSelectedIndex($index)"><img src="{{character.Avatar}}"/></button></span>
-			<span>{{character.Name}}</span>
+			<span><button ng-click="setSelectedIndex($index)"><img src="{{character.Avatar}}"/>{{character.Name}}</button></span>
 		</div>
 	</div>
 	
