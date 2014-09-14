@@ -22,6 +22,7 @@ namespace TescoHack.Api.Models
                         new Character
                         {
                             Name = "Tony",
+                            Male = true,
                             Score = 0,
                             //CheckInTime = DateTime.Now,
                             //CheckOutTime = DateTime.Now
@@ -29,6 +30,7 @@ namespace TescoHack.Api.Models
                         new Character
                         {
                             Name = "Lisa",
+                            Male = false,
                             Score = 0,
                         }
                     }
@@ -105,6 +107,12 @@ namespace TescoHack.Api.Models
     {
         public string Name { get; set; }
         public int Energy { get { return CalculateEnergy(); } }
+        public string Avatar { get { return CalculateAvatar(Name); } }
+        public bool Male { get; set; }
+        public int Score { get; set; }
+        public DateTime? CheckInTime { get; set; }
+        public DateTime? CheckOutTime { get; set; }
+        public List<Mission> Inventory { get; set; }
 
         private int CalculateEnergy()
         {
@@ -117,9 +125,18 @@ namespace TescoHack.Api.Models
             return energy;
         }
 
-        public int Score { get; set; }
-        public DateTime? CheckInTime { get; set; }
-        public DateTime? CheckOutTime { get; set; }
-        public List<Mission> Inventory { get; set; }
+        private string CalculateAvatar(string name)
+        {
+            var alignment = GetAlignment();
+            return string.Format("img/avatars/{0}{1}.png", alignment, Male ? "Boy": "Girl");
+        }
+
+        private string GetAlignment()
+        {
+            var alignmentValue = Inventory.Sum(x => x.Score);
+            if (alignmentValue <= -10) return "Bad";
+            if (alignmentValue < 10) return "Neutral";
+            return "Good";
+        }
     }
 }

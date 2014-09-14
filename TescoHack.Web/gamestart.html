@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="tescoApp">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,6 +12,8 @@
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/jquery.mobile-1.4.4.min.js"></script>
 	<script src="js/angular.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/GameStartCtrl.js"></script>
 	<style id="custom-icon">
         .ui-icon-custom:after {
 			background-image: url("../_assets/img/glyphish-icons/21-skull.png");
@@ -20,13 +22,22 @@
 		}
     </style>
 </head>
-<body>
+<body ng-controller="GameStartCtrl">
 	<div class="wrapper">
 		<h1><img src="img/logo.png" /></h1>
+
+	<div class="example-animate-container">
+		<div class="animate-repeat" ng-repeat="character in game.Team.Characters">
+			<span><button ng-click="setSelectedIndex($index)"><img src="{{character.Avatar}}"/></button></span>
+			<span>{{character.Name}}</span>
+		</div>
+	</div>
+	
 		<a href="gamescene.html"><div class="check-btn"><img src="img/check-in.png" /></div></a>
 	</div>
 	<!-- Footer -->
-
+	
+	
 	<div data-role="footer" class="nav-glyphish-example" data-theme="a">
         <div data-role="navbar" class="nav-glyphish-example" data-grid="b">
             <ul>
