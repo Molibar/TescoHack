@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Listview - jQuery Mobile Demos</title>
+        <link rel="shortcut icon" href="../favicon.ico">
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+        <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.4.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery.mobile-1.4.4.min.js"></script>
+        <script src="js/angular.min.js"></script>
+
+        <style id="custom-icon">
+            .ui-icon-custom:after {
+                background-image: url("../_assets/img/glyphish-icons/21-skull.png");
+                background-position: 3px 3px;
+                background-size: 70%;
+            }
+        </style>
+        <script>
+                    var app = angular.module('tescoApp', []);
+                    //app.controller('TescoController', ['$http'], function($http){
+                    app.controller('TescoController', function($http){
+                    var tesco = this;
+                            tesco.info = "yeah";
+                            tesco.game = [];
+                            tesco.currentUser = "";
+                            tesco.missionId = 0;
+                            tesco.products = [];
+                            tesco.sessionKey = "";
+                            tesco.searchTerm = "";
+                            /*Initialise Game*/
+
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/Game"
+
+                            }).success(function(data){
+                    tesco.game = data;
+                    });
+                      
+
+                            var urlRoot = 'https://secure.techfortesco.com/groceryapi/restservice.aspx?';
+                            var jcb = '&JSONP=JSON_CALLBACK';
+                            $http.jsonp(urlRoot + 'command=LOGIN' + jcb + '&email=&password=&developerkey=0ujRTU8FlFnyfad11Ium&applicationkey=417361BD075D0FCFD502').success(function(data){
+                    tesco.sessionKey = data.SessionKey;
+                    });
+                            tesco.add = function(data){
+                            tesco.game.Quest.Missions.push(data);
+                            };
+                            tesco.output = function(){
+
+                            console.log(tesco.game.Quest.Missions);
+                            };
+                            tesco.CheckIn = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/CheckIn/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            tesco.CheckOut = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/CheckOut/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            tesco.SubmitScan = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/Scan/" + tesco.missionId + "/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            tesco.apiCall = function(){
+
+                            $http.jsonp(urlRoot + 'command=PRODUCTSEARCH' + jcb + '&searchtext=' + tesco.searchTerm + '&sessionkey=' + tesco.sessionKey + '&page=1&developerkey=0ujRTU8FlFnyfad11Ium&applicationkey=417361BD075D0FCFD502').success(function(data){
+                            console.log(data);
+                                    tesco.products = data.Products;
+                            });
+                            };
+                    });        </script>
+    </head>
+    <body ng-app="tescoApp">
+
+        <div class="wrapper" ng-controller="TescoController as Tesco">
+
+            <!-- header -->
+            <h1>Quest List {{Tesco.game.Team.Name}}</h1>
+            <button ng-click="Tesco.add()">Add</button>
+            <button ng-click="Tesco.CheckIn()">Check In</button>
+            <button ng-click="Tesco.CheckOut()">Check Out</button>
+            <button ng-click="Tesco.apiCall()">Output</button>
+            <button ng-click="Tesco.output()">result</button>
+            <input type="text" ng-model="Tesco.searchTerm"/>
+            <input type="text" ng-model="Tesco.currentUser"/>
+            <input type="text" ng-model="Tesco.sessionKey"/>
+            <ul ng-repeat="item in Tesco.products" ng-show="true">
+                <li>
+                    <img ng-src="{{item.ImagePath}}"/>
+                    {{item.Name}}
+                    <button ng-click="Tesco.add(item)">Add</button>
+                </li>
+            </ul>
+        </div>
+
+
+    </body>
+</html>

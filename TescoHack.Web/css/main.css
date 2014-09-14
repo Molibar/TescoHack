@@ -1,4 +1,4 @@
-h1, h2, h3{
+h1, h2, h3, .font-lobster{
 	font-family: "Lobster";
 	font-weight: 400;
 }
@@ -15,7 +15,6 @@ body{
 }
 .wrapper{
 	margin: 10px;
-
 }
 
 .ui-footer {
@@ -36,4 +35,75 @@ body{
 
 .check-btn img{
 	max-width: 80%;
+}
+
+/* Game Scene */
+.row-inventory-item{
+	width: 50px;
+	height: 50px;
+	border: 1px #000 solid;
+	display: inline-block;
+}
+.row-inventory-inner{
+	white-space: nowrap;
+}
+.row-inventory{
+	overflow-x: scroll;
+}
+.row-content-map{
+	width:100%;
+	display:inline-block;
+}
+.row-content-timebar{
+	width:100%;
+	display:inline-block;
+}
+.timebar{
+	border: 1px #444 solid;
+	height: 12px;
+	width: 100%;
+	border-radius: 25px;
+	overflow: hidden;
+}
+.timebar-inner{
+	width: 70%;
+	height: 100%;
+	border-radius: 3px;
+	background: linear-gradient(to bottom, #46C , #23A);
+}
+.row-content-map img{
+	width: 100%;
+}
+.row-content-map{
+	position: relative;
+}
+.star{
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	top: 0;
+	z-index: 99999;
+}
+.star img{
+	width: 100%;
+}
+.star-1{
+	top: 10%;
+	left: 20%;
+}
+.star-2{
+	top: 20%;
+	left: 50%;
+}
+.star-3{
+	top: 40%;
+	left: 20%;
+}
+.star-4{
+	top: 60%;
+	left: 10%;
+}
+.star-5{
+	top: 70%;
+	left: 35%;
 }

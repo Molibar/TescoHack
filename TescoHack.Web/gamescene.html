@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="css/main.css">
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/jquery.mobile-1.4.4.min.js"></script>
+        <script src="js/angular.min.js"></script>
 	<style id="custom-icon">
         .ui-icon-custom:after {
 			background-image: url("../_assets/img/glyphish-icons/21-skull.png");
@@ -18,33 +19,152 @@
 			background-size: 70%;
 		}
     </style>
+    
+    
+    
+    <script>
+        
+
+        
+                    var app = angular.module('tescoApp', []);
+                    //app.controller('TescoController', ['$http'], function($http){
+                    app.controller('TescoController', function($http){
+                    var tesco = this;
+                            tesco.info = "yeah";
+                            tesco.game = [];
+                            tesco.currentUser = "";
+                            tesco.missionId = 0;
+                            tesco.products = [];
+                            tesco.sessionKey = "";
+                            tesco.searchTerm = "";
+                            /*Initialise Game*/
+
+                            
+/*
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/Game"
+
+                            }).success(function(data){
+                    tesco.game = data;
+                    });
+                      */
+
+                            var urlRoot = 'https://secure.techfortesco.com/groceryapi/restservice.aspx?';
+                            var jcb = '&JSONP=JSON_CALLBACK';
+                            /*
+                            $http.jsonp(urlRoot + 'command=LOGIN' + jcb + '&email=&password=&developerkey=0ujRTU8FlFnyfad11Ium&applicationkey=417361BD075D0FCFD502').success(function(data){
+                    tesco.sessionKey = data.SessionKey;
+                    });*/
+                            tesco.add = function(data){
+                            tesco.game.Quest.Missions.push(data);
+                            };
+                            tesco.output = function(){
+
+                            console.log(tesco.game.Quest.Missions);
+                            };
+                            tesco.CheckIn = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/CheckIn/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            tesco.CheckOut = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/CheckOut/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            
+                     
+                            tesco.SubmitScan = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/Scan/" + tesco.missionId + "/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            tesco.apiCall = function(){
+
+                            $http.jsonp(urlRoot + 'command=PRODUCTSEARCH' + jcb + '&searchtext=' + tesco.searchTerm + '&sessionkey=' + tesco.sessionKey + '&page=1&developerkey=0ujRTU8FlFnyfad11Ium&applicationkey=417361BD075D0FCFD502').success(function(data){
+                            console.log(data);
+                                    tesco.products = data.Products;
+                            });
+                            };
+                    });       
+                    
+    $( document ).ready(function() {
+        
+      });
+    
+    </script>
+    
+    
 </head>
-<body>
+<body ng-app="tescoApp" ng-controller="TescoController as Tesco">
 	<div class="wrapper">
-		<h1><img src="img/hurry-up.png" /></h1>
-		<div class="check-btn"><img src="img/check-in.png" /></div>
+
+		<div class="row-head">
+			<div class="row-head-character">
+			</div>
+			<div class="font-lobster row-head-score">
+				SCORE: <span>1120</span>
+			</div>
+		</div>
+
+		<div class="row-content">
+			<div class="row-content-map">
+				<img src="img/map.jpg" />
+				<div class="star star-1"><img src="img/star.png" /></div>
+				<div class="star star-2"><img src="img/star.png" /></div>
+				<div class="star star-3"><img src="img/star.png" /></div>
+				<div class="star star-4"><img src="img/star.png" /></div>
+				<div class="star star-5"><img src="img/star.png" /></div>
+			</div>
+		</div>
+
+		<div class="row-content-timebar">
+			<div class="timebar">
+				<div class="timebar-inner"></div>
+			</div>
+		</div>
+
+		<button class="ui-btn ui-btn-b ui-shadow">SCAN</button>
+
+		<div class="row-inventory">
+			<div class="row-inventory-inner">
+				<div class="row-inventory-item"></div>
+				<div class="row-inventory-item"></div>
+				<div class="row-inventory-item"></div>
+				<div class="row-inventory-item"></div>
+				<div class="row-inventory-item"></div>
+				<div class="row-inventory-item"></div>
+				<div class="row-inventory-item"></div>
+				<div class="row-inventory-item"></div>
+				<div class="row-inventory-item"></div>
+				<div class="row-inventory-item"></div>
+				<div class="row-inventory-item"></div>
+			</div>
+		</div>
 	</div>
+
 	<!-- Footer -->
-
-	<div class="row-head">
-		<div class="row-head-character">
-		</div>
-		<div class="row-head-score">
-			SCORE: <span>1120</span>
-		</div>
-	</div>
-
-	<div class="row-content">
-		<div class="row-content-map">
-		</div>
-		<div class="row-content-timebar"></div>
-	</div>
-
-	<div class="row-inventory">
-		<div class="row-inventory-item"></div>
-		<div class="row-inventory-item"></div>
-		<div class="row-inventory-item"></div>
-		<div class="row-inventory-item"></div>
+	<div data-role="footer" class="nav-glyphish-example" data-theme="a">
+        <div data-role="navbar" class="nav-glyphish-example" data-grid="b">
+            <ul>
+                <li><a href="#" class="js-btn-quest quest-icon" data-icon="custom" class="ui-btn-active">Quest List</a></li>
+                <li><a href="#" class="js-btn-game game-icon" data-icon="custom">Conquer</a></li>
+                <li><a href="#" class="js-btn-leaderboard leaderboard-icon" data-icon="custom">Leaderboards</a></li>
+            </ul>
+        </div>
 	</div>
 
 </body>

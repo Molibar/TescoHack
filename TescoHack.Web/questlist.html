@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="css/main.css">
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/jquery.mobile-1.4.4.min.js"></script>
+        <script src="js/angular.min.js"></script>
+        <script src="js/StrippedProds.js"></script>
 	<style id="custom-icon">
         .ui-icon-custom:after {
 			background-image: url("../_assets/img/glyphish-icons/21-skull.png");
@@ -18,8 +20,96 @@
 			background-size: 70%;
 		}
     </style>
+    
+    <script>
+        
+
+        
+                    var app = angular.module('tescoApp', []);
+                    //app.controller('TescoController', ['$http'], function($http){
+                    app.controller('TescoController', function($http){
+                    var tesco = this;
+                            tesco.info = "yeah";
+                            tesco.game = [];
+                            tesco.currentUser = "";
+                            tesco.missionId = 0;
+                            tesco.products = [];
+                            tesco.questlist = [];
+                            tesco.sessionKey = "";
+                            tesco.searchTerm = "";
+                            /*Initialise Game*/
+
+                            tesco.products = products;
+
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/Game"
+
+                            }).success(function(data){
+                    tesco.game = data;
+                    console.log(tesco.game.Quest);
+                    });
+                      
+
+                            var urlRoot = 'https://secure.techfortesco.com/groceryapi/restservice.aspx?';
+                            var jcb = '&JSONP=JSON_CALLBACK';
+                            /*
+                            $http.jsonp(urlRoot + 'command=LOGIN' + jcb + '&email=&password=&developerkey=0ujRTU8FlFnyfad11Ium&applicationkey=417361BD075D0FCFD502').success(function(data){
+                    tesco.sessionKey = data.SessionKey;
+                    });*/
+                            tesco.add = function(data){
+                                tesco.game.Quest.Missions.push(data);
+                            };
+                            
+                            tesco.addQuest = function(data){
+                                
+                                tesco.game.Quest.Missions.push(data);
+                            };
+                            
+                            
+                            tesco.output = function(){
+
+                            console.log(tesco.game.Quest.Missions);
+                            };
+                            tesco.CheckIn = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/CheckIn/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            tesco.CheckOut = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/CheckOut/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            
+                     
+                            tesco.SubmitScan = function(){
+                            $http({
+                            method: "post",
+                                    url: "http://tescohack.apphb.com/api/Scan/" + tesco.missionId + "/" + tesco.currentUser
+
+                            }).success(function(data){
+                            tesco.game = data;
+                            });
+                            };
+                            tesco.apiCall = function(){
+
+                            $http.jsonp(urlRoot + 'command=PRODUCTSEARCH' + jcb + '&searchtext=' + tesco.searchTerm + '&sessionkey=' + tesco.sessionKey + '&page=1&developerkey=0ujRTU8FlFnyfad11Ium&applicationkey=417361BD075D0FCFD502').success(function(data){
+                            console.log(data);
+                                    tesco.products = data.Products;
+                            });
+                            };
+                    });        </script>
 </head>
-<body>
+<body ng-app="tescoApp" ng-controller="TescoController as Tesco">
 	<div class="wrapper">
 		
 		<!-- header -->
@@ -32,13 +122,13 @@
 			<form class="ui-filterable">
 				<input id="autocomplete-input" data-type="search" placeholder="Search fruits...">
 			</form>
-			<ul data-role="listview" data-filter="true" data-filter-reveal="true" data-input="#autocomplete-input" data-inset="true">
-				<li><a href="#">Apple</a></li>
-				<li><a href="#">Banana</a></li>
-				<li><a href="#">Cherry</a></li>
-				<li><a href="#">Cranberry</a></li>
-				<li><a href="#">Grape</a></li>
-				<li><a href="#">Orange</a></li>
+			<ul data-role="listview" data-filter="true" data-filter-reveal="true" data-input="#autocomplete-input" data-inset="true" >
+				<li ng-repeat="item in Tesco.products"><a href="#">
+                                          <img ng-src="tesco_img/{{item.Id}}.jpg"/>
+                                        {{item.Name}}</a>
+                                    <button ng-click="Tesco.addQuest(item)">Add</button>
+                                </li>
+				
 			</ul>
 
 		</div>
@@ -48,6 +138,13 @@
 		<!-- Selected Questlist -->
 		<div class="row-questlist">
 
+                    
+                    <ul data-role="listview" data-split-icon="arrow-r" data-split-theme="a" data-inset="true">
+                        <li ng-repeat="item in Tesco.game.Quest.Missions"><a href="#">
+                                          <img ng-src="tesco_img/{{item.Id}}.jpg"/>
+                                        {{item.Name}}</a></li>
+                    </ul>
+                    
 			<ul data-role="listview" data-split-icon="arrow-r" data-split-theme="a" data-inset="true">
 				<li><a href="#">
 					<img src="img/potato.jpg">
@@ -87,7 +184,7 @@
         <div data-role="navbar" class="nav-glyphish-example" data-grid="b">
             <ul>
                 <li><a href="#" class="js-btn-quest quest-icon" data-icon="custom" class="ui-btn-active">Quest List</a></li>
-                <li><a href="#" class="js-btn-game game-icon" data-icon="custom">Conquer</a></li>
+                <li><a href="#" class="js-btn-game game-icon" data-icon="custom" >Conquer</a></li>
                 <li><a href="#" class="js-btn-leaderboard leaderboard-icon" data-icon="custom">Leaderboards</a></li>
             </ul>
         </div>
